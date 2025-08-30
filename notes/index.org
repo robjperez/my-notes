@@ -27,8 +27,8 @@ These notes are:
 - Automatically published to this website via GitHub Actions
 - Hosted on GitHub Pages
 
-** Recent Updates
+** Browse All Notes
 
-The sitemap below shows all notes sorted by last modification date:
+Visit the [[file:sitemap.org][complete sitemap]] to see all notes organized by date.
 
-#+INCLUDE: "sitemap.org"
+*Note: The sitemap is automatically generated when the site is published.*
