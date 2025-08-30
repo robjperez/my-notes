@@ -1,0 +1,34 @@
+#+TITLE: My Digital Notes
+#+AUTHOR: Your Name
+#+EMAIL: your.email@example.com
+#+OPTIONS: toc:nil num:nil
+
+* Welcome to My Notes
+
+This is my personal knowledge base where I collect thoughts, learnings, and insights on various topics. The notes are organized by category and automatically updated as I add new content.
+
+** Categories
+
+*** Programming
+- [[file:programming/python.org][Python Notes]]
+- [[file:programming/javascript.org][JavaScript Notes]]
+
+*** Books & Reading
+- [[file:books/reading-list.org][Reading List]]
+
+*** Personal
+- [[file:personal/journal.org][Journal Entries]]
+
+** How This Works
+
+These notes are:
+- Written in Emacs Org mode
+- Version controlled with Git
+- Automatically published to this website via GitHub Actions
+- Hosted on GitHub Pages
+
+** Recent Updates
+
+The sitemap below shows all notes sorted by last modification date:
+
+#+INCLUDE: "sitemap.org"

@@ -1,0 +1,33 @@
+name: Publish Org Notes
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Emacs
+      uses: purcell/setup-emacs@master
+      with:
+        version: 29.1
+        
+    - name: Install Org mode
+      run: |
+        emacs --batch --eval "(progn (require 'package) (add-to-list 'package-archives '(\"melpa\" . \"https://melpa.org/packages/\")) (package-initialize) (package-refresh-contents) (package-install 'org))"
+        
+    - name: Publish notes
+      run: |
+        emacs --batch --load publish.el --funcall batch-publish
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
