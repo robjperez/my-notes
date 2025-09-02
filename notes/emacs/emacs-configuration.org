@@ -1,0 +1,77 @@
+#+TITLE: Emacs Configuration Tips
+#+AUTHOR: Roberto
+#+DATE: 2024-01-19
+#+TAGS: emacs, configuration, customization, setup
+#+OPTIONS: toc:nil num:nil
+
+* Introduction to Emacs Configuration
+
+Emacs is highly customizable through its configuration system. This note covers essential configuration tips and best practices.
+
+* Configuration Files
+
+** init.el
+The main configuration file located at `~/.emacs.d/init.el` or `~/.config/emacs/init.el`.
+
+** use-package
+A popular package for managing Emacs packages and their configurations.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :ensure t
+  :config
+  (setq org-directory "~/Documents/org")
+  (setq org-agenda-files '("~/Documents/org")))
+#+END_SRC
+
+* Essential Settings
+
+** Basic Customizations
+#+BEGIN_SRC emacs-lisp
+;; Disable startup screen
+(setq inhibit-startup-screen t)
+
+;; Show line numbers
+(global-display-line-numbers-mode t)
+
+;; Set default font
+(set-face-attribute 'default nil :font "Fira Code" :height 120)
+#+END_SRC
+
+** Package Management
+#+BEGIN_SRC emacs-lisp
+;; Initialize package system
+(require 'package)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+(package-initialize)
+#+END_SRC
+
+* Key Bindings
+
+** Custom Key Bindings
+#+BEGIN_SRC emacs-lisp
+;; Global key bindings
+(global-set-key (kbd "C-c C-c") 'comment-region)
+(global-set-key (kbd "C-c C-u") 'uncomment-region)
+
+;; Org mode specific bindings
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-c C-t") 'org-todo))
+#+END_SRC
+
+* Performance Tips
+
+- Use `profiler-start` and `profiler-stop` to identify slow configurations
+- Lazy load packages with `:defer t` in use-package
+- Use `(require 'feature)` instead of `(load "feature")` when possible
+- Disable unused features with `(setq feature-name nil)`
+
+* Useful Packages
+
+** Essential Packages
+- **magit**: Git integration
+- **projectile**: Project management
+- **helm**: Incremental completion
+- **which-key**: Key binding help
+- **company**: Auto-completion

@@ -11,6 +11,7 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
 
 - [[file:emacs/emacs-basics.org][Emacs Basics]] :emacs: :editor: :basics: :navigation: (2024-01-15)
 - [[file:emacs/org-mode.org][Org Mode Mastery]] :emacs: :org-mode: :productivity: :notes: (2024-01-16)
+- [[file:emacs/emacs-configuration.org][Emacs Configuration Tips]] :emacs: :configuration: :customization: :setup: (2024-01-19)
 
 * Ruby Notes
 

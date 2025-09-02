@@ -4,6 +4,23 @@
 (require 'ox-publish)
 (require 'org)
 
+;; Custom function to handle CSS paths based on file location
+(defun my-org-html-head (info)
+  "Generate HTML head with correct CSS path based on file location."
+  (let* ((file-path (plist-get info :input-file))
+         (relative-path (file-relative-name file-path "./notes"))
+         (depth (length (split-string relative-path "/" t)))
+         (css-path (if (> depth 1)
+                       (concat (make-string (1- depth) ?.) "/assets/css/style.css")
+                     "assets/css/style.css")))
+    (format "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />
+                     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+                     <meta charset=\"utf-8\">" css-path)))
+
+
+
+
+
 ;; Configure HTML export settings
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
@@ -17,9 +34,10 @@
 
 (setq org-publish-project-alist
       (list
-       (list "my-notes-org"
-             :recursive t
+       (list "my-notes-org-root"
              :base-directory "./notes"
+             :base-extension "org"
+             :include '("index.org")
              :publishing-function 'org-html-publish-to-html
              :publishing-directory "./public"
              :with-author nil
@@ -28,6 +46,23 @@
              :section-numbers nil
              :time-stamp-file nil
              :html-preamble "<nav><a href=\"index.html\">Home</a> | <a href=\"index.html\">All Notes</a></nav>"
+             :html-postamble "<footer><p>Last updated: %C</p></footer>")
+       (list "my-notes-org-subdirs"
+             :recursive t
+             :base-directory "./notes"
+             :base-extension "org"
+             :exclude "index.org"
+             :publishing-function 'org-html-publish-to-html
+             :publishing-directory "./public"
+             :with-author nil
+             :with-creator t
+             :with-toc t
+             :section-numbers nil
+             :time-stamp-file nil
+             :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../assets/css/style.css\" />
+                         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+                         <meta charset=\"utf-8\">"
+             :html-preamble "<nav><a href=\"../index.html\">Home</a> | <a href=\"../index.html\">All Notes</a></nav>"
              :html-postamble "<footer><p>Last updated: %C</p></footer>")
        (list "my-notes-static"
              :base-directory "./assets"
@@ -51,6 +86,7 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
 
 - [[file:emacs/emacs-basics.org][Emacs Basics]] :emacs: :editor: :basics: :navigation: (2024-01-15)
 - [[file:emacs/org-mode.org][Org Mode Mastery]] :emacs: :org-mode: :productivity: :notes: (2024-01-16)
+- [[file:emacs/emacs-configuration.org][Emacs Configuration Tips]] :emacs: :configuration: :customization: :setup: (2024-01-19)
 
 * Ruby Notes
 
@@ -64,7 +100,9 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
 (defun batch-publish ()
   "Publish the notes in batch mode."
   (simple-generate-index)
-  (org-publish-all t))
+  (org-publish-project "my-notes-org-root" t)
+  (org-publish-project "my-notes-org-subdirs" t)
+  (org-publish-project "my-notes-static" t))
 
 (provide 'publish-simple)
 ;;; publish-simple.el ends here
