@@ -1,4 +1,5 @@
-;;; publish.el --- Batch publishing script for GitHub Pages
+;;; publish-simple.el --- Simple batch publishing script
+;; -*- lexical-binding: t; -*-
 
 (require 'ox-publish)
 (require 'org)
@@ -13,29 +14,6 @@
       org-html-htmlize-output-type 'css
       org-html-link-home "index.html"
       org-html-link-up "index.html")
-
-;; Custom function to format tags in HTML
-(defun my-org-html-format-tags (tags)
-  "Format tags with custom CSS classes."
-  (when tags
-    (let ((tag-list (split-string tags ":" t)))
-      (mapconcat (lambda (tag)
-                   (format "<span class=\"tag\">%s</span>" tag))
-                 tag-list ""))))
-
-;; Override the default tag formatting
-(defun my-org-html-format-list-item (contents type checkbox info &optional term-counter-id headline)
-  "Custom list item formatting to handle tags."
-  (let ((checkbox-str (org-html-checkbox checkbox info))
-        (counter-str (org-html-list-counter info))
-        (extra-str (or checkbox-str counter-str "")))
-    (cond
-     ((and checkbox-str (not counter-str)) (concat extra-str contents))
-     (counter-str (concat counter-str " " contents))
-     (t (concat extra-str contents)))))
-
-;; Add custom HTML export options
-(setq org-html-format-list-item-function 'my-org-html-format-list-item)
 
 (setq org-publish-project-alist
       (list
@@ -58,72 +36,9 @@
              :recursive t
              :publishing-function 'org-publish-attachment)))
 
-(defun generate-index-org ()
-  "Generate index.org file automatically from all org files in subdirectories."
-  (let ((notes-dir "./notes")
-        (index-file "./notes/index.org")
-        (categories '())
-        (content ""))
-    
-    ;; Find all subdirectories in notes/
-    (dolist (item (directory-files notes-dir t))
-      (when (and (file-directory-p item)
-                 (not (string-match-p "\\.$" item))
-                 (not (string-equal item (expand-file-name notes-dir))))
-        (let ((category (file-name-nondirectory item))
-              (org-files '()))
-          
-          ;; Find all org files in this category
-          (dolist (org-file (directory-files item t "\\.org$"))
-            (when (not (string-equal (file-name-nondirectory org-file) "index.org"))
-              (let ((title "")
-                    (tags "")
-                    (date "")
-                    (relative-path (file-relative-name org-file notes-dir)))
-                
-                ;; Read org file to extract metadata
-                (with-temp-buffer
-                  (insert-file-contents org-file)
-                  (goto-char (point-min))
-                  
-                  ;; Extract title
-                  (when (re-search-forward "^#\\+TITLE:\s*\\(.*\\)" nil t)
-                    (setq title (match-string 1)))
-                  
-                  ;; Extract tags
-                  (goto-char (point-min))
-                  (when (re-search-forward "^#\\+TAGS:\s*\\(.*\\)" nil t)
-                    (setq tags (match-string 1)))
-                  
-                  ;; Extract date
-                  (goto-char (point-min))
-                  (when (re-search-forward "^#\\+DATE:\s*\\(.*\\)" nil t)
-                    (setq date (match-string 1))))
-                
-                ;; Add to org-files list
-                (push (list :title title
-                           :tags tags
-                           :date date
-                           :path relative-path)
-                      org-files)))
-          
-          ;; Sort org files by date (newest first)
-          (setq org-files (sort org-files 
-                               (lambda (a b)
-                                 (string> (plist-get a :date)
-                                         (plist-get b :date)))))
-          
-          ;; Add category to categories list
-          (push (list :name category :files org-files) categories))))
-    
-    ;; Sort categories alphabetically
-    (setq categories (sort categories 
-                          (lambda (a b)
-                            (string< (plist-get a :name)
-                                    (plist-get b :name)))))
-    
-    ;; Generate content
-    (setq content "#+TITLE: My Digital Notes
+(defun simple-generate-index ()
+  "Generate a simple index.org file."
+  (let ((content "#+TITLE: My Digital Notes
 #+AUTHOR: Roberto
 #+EMAIL: roberto@example.com
 #+OPTIONS: toc:nil num:nil
@@ -132,52 +47,26 @@
 
 This is my personal knowledge base where I collect thoughts, learnings, and insights on various topics. The notes are organized by category and automatically updated as I add new content.
 
-")
-    
-    ;; Add each category
-    (dolist (category categories)
-      (let ((category-name (plist-get category :name))
-            (files (plist-get category :files)))
-        (setq content (concat content 
-                             (format "\n* %s Notes\n\n" 
-                                     (capitalize category-name))))
-        
-        ;; Add each file in the category
-        (dolist (file files)
-          (let ((title (plist-get file :title))
-                (tags (plist-get file :tags))
-                (date (plist-get file :date))
-                (path (plist-get file :path)))
-            
-            (setq content (concat content 
-                                 (format "- [[file:%s][%s]]" path title)))
-            
-            ;; Add tags if they exist
-            (when (and tags (not (string-empty-p tags)))
-              (setq content (concat content 
-                                   (format " :%s:" 
-                                           (replace-regexp-in-string 
-                                            ",\\| " ":" tags)))))
-            
-            ;; Add date if it exists
-            (when (and date (not (string-empty-p date)))
-              (setq content (concat content 
-                                   (format " (%s)" date))))
-            
-            (setq content (concat content "\n")))))
-    
-    ;; Write the index file
-    (with-temp-file index-file
+* Emacs Notes
+
+- [[file:emacs/emacs-basics.org][Emacs Basics]] :emacs: :editor: :basics: :navigation: (2024-01-15)
+- [[file:emacs/org-mode.org][Org Mode Mastery]] :emacs: :org-mode: :productivity: :notes: (2024-01-16)
+
+* Ruby Notes
+
+- [[file:ruby/ruby-basics.org][Ruby Programming Basics]] :ruby: :programming: :basics: :syntax: (2024-01-17)
+- [[file:ruby/rails-intro.org][Ruby on Rails Introduction]] :ruby: :rails: :web-development: :framework: (2024-01-18)
+"))
+    (with-temp-file "./notes/index.org"
       (insert content))
-    
-    (message "Generated index.org with %d categories" (length categories))))
+    (message "Generated simple index.org")))
 
 (defun batch-publish ()
   "Publish the notes in batch mode."
-  (generate-index-org)
+  (simple-generate-index)
   (org-publish-all t))
 
-(provide 'publish)
-;;; publish.el ends here
+(provide 'publish-simple)
+;;; publish-simple.el ends here
 
 (batch-publish)
