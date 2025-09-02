@@ -1,0 +1,59 @@
+#+TITLE: Ruby Programming Basics
+#+AUTHOR: Roberto
+#+DATE: 2024-01-17
+#+TAGS: ruby, programming, basics, syntax
+#+OPTIONS: toc:nil num:nil
+
+* Introduction to Ruby
+
+Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.
+
+* Variables and Data Types
+
+** Variables
+#+BEGIN_SRC ruby
+name = "Roberto"
+age = 30
+is_student = true
+#+END_SRC
+
+** Data Types
+- Strings: "Hello World"
+- Numbers: 42, 3.14
+- Booleans: true, false
+- Arrays: [1, 2, 3]
+- Hashes: {name: "Roberto", age: 30}
+
+* Control Structures
+
+** If Statements
+#+BEGIN_SRC ruby
+if age >= 18
+  puts "You are an adult"
+else
+  puts "You are a minor"
+end
+#+END_SRC
+
+** Loops
+#+BEGIN_SRC ruby
+# For loop
+for i in 1..5
+  puts i
+end
+
+# Each loop
+[1, 2, 3].each do |number|
+  puts number
+end
+#+END_SRC
+
+* Methods
+
+#+BEGIN_SRC ruby
+def greet(name)
+  "Hello, #{name}!"
+end
+
+puts greet("Roberto")
+#+END_SRC

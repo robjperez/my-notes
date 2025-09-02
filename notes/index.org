@@ -1,34 +1,18 @@
 #+TITLE: My Digital Notes
-#+AUTHOR: Your Name
-#+EMAIL: your.email@example.com
+#+AUTHOR: Roberto
+#+EMAIL: roberto@example.com
 #+OPTIONS: toc:nil num:nil
 
 * Welcome to My Notes
 
 This is my personal knowledge base where I collect thoughts, learnings, and insights on various topics. The notes are organized by category and automatically updated as I add new content.
 
-** Categories
+* Emacs Notes
 
-*** Programming
-- [[file:programming/python.org][Python Notes]]
-- [[file:programming/javascript.org][JavaScript Notes]]
+- [[file:emacs/emacs-basics.org][Emacs Basics]] :emacs: :editor: :basics: :navigation: (2024-01-15)
+- [[file:emacs/org-mode.org][Org Mode Mastery]] :emacs: :org-mode: :productivity: :notes: (2024-01-16)
 
-*** Books & Reading
-- [[file:books/reading-list.org][Reading List]]
+* Ruby Notes
 
-*** Personal
-- [[file:personal/journal.org][Journal Entries]]
-
-** How This Works
-
-These notes are:
-- Written in Emacs Org mode
-- Version controlled with Git
-- Automatically published to this website via GitHub Actions
-- Hosted on GitHub Pages
-
-** Browse All Notes
-
-Visit the [[file:sitemap.org][complete sitemap]] to see all notes organized by date.
-
-*Note: The sitemap is automatically generated when the site is published.*
+- [[file:ruby/ruby-basics.org][Ruby Programming Basics]] :ruby: :programming: :basics: :syntax: (2024-01-17)
+- [[file:ruby/rails-intro.org][Ruby on Rails Introduction]] :ruby: :rails: :web-development: :framework: (2024-01-18)
