@@ -1,0 +1,10 @@
+#+TITLE: My Digital Notes
+#+AUTHOR: Your Name
+#+EMAIL: your.email@example.com
+#+OPTIONS: toc:nil num:nil
+
+* Welcome to My Notes
+
+This is my personal knowledge base where I collect thoughts, learnings, and insights on various topics. The notes are organized by category and automatically updated as I add new content.
+
+#+INCLUDE: "index.org"
