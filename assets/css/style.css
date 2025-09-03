@@ -174,54 +174,102 @@ footer {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Make tags more visually distinct with subtle styling */
-.org-ul li {
-    background: linear-gradient(90deg, transparent 0%, rgba(52, 152, 219, 0.05) 100%);
-    border-radius: 4px;
-    padding: 4px 8px;
-    margin: 4px 0;
-}
-
-/* Fancy tag styling */
-.org-ul li {
-    position: relative;
-}
-
-/* Style tags (the :tag: portions) */
-.org-ul li::after {
-    content: "";
-    display: inline-block;
-    margin-left: 8px;
-}
-
-/* Add special styling for tags in list items */
+/* List item styling */
 .org-ul li {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 6px;
-}
-
-/* Style individual tags */
-.org-ul li {
-    font-size: 0.9em;
-}
-
-/* Make tags look like badges */
-.org-ul li {
-    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.05) 100%);
-    border: 1px solid rgba(52, 152, 219, 0.2);
+    gap: 8px;
+    margin: 8px 0;
+    padding: 8px 12px;
+    background: linear-gradient(90deg, transparent 0%, rgba(52, 152, 219, 0.03) 100%);
     border-radius: 6px;
-    padding: 6px 12px;
-    margin: 3px 0;
     transition: all 0.2s ease;
 }
 
 .org-ul li:hover {
-    background: linear-gradient(135deg, rgba(52, 152, 219, 0.15) 0%, rgba(52, 152, 219, 0.08) 100%);
-    border-color: rgba(52, 152, 219, 0.3);
+    background: linear-gradient(90deg, transparent 0%, rgba(52, 152, 219, 0.08) 100%);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+}
+
+.org-ul li a {
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+/* Individual tag styling */
+.tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 0.65em;
+    font-weight: 400;
+    text-transform: lowercase;
+    margin: 1px 2px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    opacity: 0.8;
+}
+
+.tag:hover {
+    opacity: 1;
+    transform: translateY(-0.5px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Color schemes for different tag types - subtle colors */
+.tag-emacs { background: #f0f4f0; color: #4a6741; border-color: #6b8e6b; }
+.tag-ruby { background: #f5f0f0; color: #6b4a4a; border-color: #8b6b6b; }
+.tag-rails { background: #f5f2f0; color: #6b5a4a; border-color: #8b7b6b; }
+.tag-web-development { background: #f0f2f5; color: #4a5a6b; border-color: #6b7b8b; }
+.tag-framework { background: #f2f0f5; color: #5a4a6b; border-color: #7b6b8b; }
+.tag-programming { background: #f0f5f2; color: #4a6b5a; border-color: #6b8b7b; }
+.tag-basics { background: #f5f4f0; color: #6b5a4a; border-color: #8b7b6b; }
+.tag-syntax { background: #f5f0f2; color: #6b4a5a; border-color: #8b6b7b; }
+.tag-configuration { background: #f0f0f5; color: #4a4a6b; border-color: #6b6b8b; }
+.tag-customization { background: #f2f5f0; color: #5a6b4a; border-color: #7b8b6b; }
+.tag-setup { background: #f5f2f0; color: #6b5a4a; border-color: #8b7b6b; }
+.tag-org-mode { background: #f0f5f5; color: #4a6b6b; border-color: #6b8b8b; }
+.tag-productivity { background: #f5f5f0; color: #6b6b4a; border-color: #8b8b6b; }
+.tag-notes { background: #f5f5f5; color: #6b6b6b; border-color: #8b8b8b; }
+.tag-editor { background: #f0f4f0; color: #4a6741; border-color: #6b8e6b; }
+.tag-navigation { background: #f0f2f5; color: #4a5a6b; border-color: #6b7b8b; }
+.tag-glsl { background: #f0f0f5; color: #4a4a6b; border-color: #6b6b8b; }
+.tag-graphics { background: #f5f2f0; color: #6b5a4a; border-color: #8b7b6b; }
+.tag-shaders { background: #f2f0f5; color: #5a4a6b; border-color: #7b6b8b; }
+.tag-opengl { background: #f0f5f2; color: #4a6b5a; border-color: #6b8b7b; }
+.tag-vertex-shaders { background: #f5f0f2; color: #6b4a5a; border-color: #8b6b7b; }
+.tag-webgl { background: #f0f2f5; color: #4a5a6b; border-color: #6b7b8b; }
+.tag-javascript { background: #f5f4f0; color: #6b5a4a; border-color: #8b7b6b; }
+.tag-3d { background: #f2f5f0; color: #5a6b4a; border-color: #7b8b6b; }
+
+/* Dark mode tag colors - subtle */
+@media (prefers-color-scheme: dark) {
+    .tag-emacs { background: #2a3a2a; color: #8ba68b; border-color: #5a7a5a; }
+    .tag-ruby { background: #3a2a2a; color: #a68b8b; border-color: #7a5a5a; }
+    .tag-rails { background: #3a322a; color: #a68b7a; border-color: #7a6a5a; }
+    .tag-web-development { background: #2a323a; color: #8b9aa6; border-color: #5a6a7a; }
+    .tag-framework { background: #322a3a; color: #9a8ba6; border-color: #6a5a7a; }
+    .tag-programming { background: #2a3a32; color: #8ba69a; border-color: #5a7a6a; }
+    .tag-basics { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
+    .tag-syntax { background: #3a2a32; color: #a68b9a; border-color: #7a5a6a; }
+    .tag-configuration { background: #2a2a3a; color: #8b8ba6; border-color: #5a5a7a; }
+    .tag-customization { background: #323a2a; color: #9aa68b; border-color: #6a7a5a; }
+    .tag-setup { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
+    .tag-org-mode { background: #2a3a3a; color: #8ba6a6; border-color: #5a7a7a; }
+    .tag-productivity { background: #3a3a2a; color: #a6a68b; border-color: #7a7a5a; }
+    .tag-notes { background: #3a3a3a; color: #a6a6a6; border-color: #7a7a7a; }
+    .tag-editor { background: #2a3a2a; color: #8ba68b; border-color: #5a7a5a; }
+    .tag-navigation { background: #2a323a; color: #8b9aa6; border-color: #5a6a7a; }
+    .tag-glsl { background: #2a2a3a; color: #8b8ba6; border-color: #5a5a7a; }
+    .tag-graphics { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
+    .tag-shaders { background: #322a3a; color: #9a8ba6; border-color: #6a5a7a; }
+    .tag-opengl { background: #2a3a32; color: #8ba69a; border-color: #5a7a6a; }
+    .tag-vertex-shaders { background: #3a2a32; color: #a68b9a; border-color: #7a5a6a; }
+    .tag-webgl { background: #2a323a; color: #8b9aa6; border-color: #5a6a7a; }
+    .tag-javascript { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
+    .tag-3d { background: #323a2a; color: #9aa68b; border-color: #6a7a5a; }
 }
 
 /* Mobile responsiveness */
