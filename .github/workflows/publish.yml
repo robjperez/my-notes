@@ -29,12 +29,9 @@ jobs:
     - name: Verify Emacs installation
       run: emacs --version
         
-    - name: Generate index.org
-      run: emacs --batch -l scripts/generate-index.el
-        
     - name: Publish org files
       run: |
-        emacs --batch -l publish.el
+        emacs --batch -l scripts/publish.el
         
     - name: Setup Pages
       uses: actions/configure-pages@v4

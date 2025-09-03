@@ -18,9 +18,6 @@
                      <meta charset=\"utf-8\">" css-path)))
 
 
-
-
-
 ;; Configure HTML export settings
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
@@ -71,9 +68,17 @@
              :recursive t
              :publishing-function 'org-publish-attachment)))
 
-(defun simple-generate-index ()
-  "Generate a simple index.org file."
-  (let ((content "#+TITLE: My Digital Notes
+(defun my/generate-index ()
+  "Genera el archivo index.org con enlaces a todas las notas por subcarpeta (categoría), usando rutas relativas."
+  (let* ((base-dir "notes/")
+         (index-file (concat base-dir "index.org"))
+         (categories (seq-filter
+                      (lambda (f)
+                        (and (file-directory-p (concat base-dir f))
+                             (not (string-match-p "^\\." f))))
+                      (directory-files base-dir nil nil t))))
+    (with-temp-file index-file
+      (insert "#+TITLE: My Digital Notes
 #+AUTHOR: Roberto
 #+EMAIL: roberto@example.com
 #+OPTIONS: toc:nil num:nil
@@ -82,24 +87,34 @@
 
 This is my personal knowledge base where I collect thoughts, learnings, and insights on various topics. The notes are organized by category and automatically updated as I add new content.
 
-* Emacs Notes
-
-- [[file:emacs/emacs-basics.org][Emacs Basics]] :emacs: :editor: :basics: :navigation: (2024-01-15)
-- [[file:emacs/org-mode.org][Org Mode Mastery]] :emacs: :org-mode: :productivity: :notes: (2024-01-16)
-- [[file:emacs/emacs-configuration.org][Emacs Configuration Tips]] :emacs: :configuration: :customization: :setup: (2024-01-19)
-
-* Ruby Notes
-
-- [[file:ruby/ruby-basics.org][Ruby Programming Basics]] :ruby: :programming: :basics: :syntax: (2024-01-17)
-- [[file:ruby/rails-intro.org][Ruby on Rails Introduction]] :ruby: :rails: :web-development: :framework: (2024-01-18)
-"))
-    (with-temp-file "./notes/index.org"
-      (insert content))
-    (message "Generated simple index.org")))
+")
+      (dolist (cat categories)
+        (let ((cat-name (capitalize cat))
+              (cat-dir (concat base-dir cat "/")))
+          (insert (format "* %s Notes\n\n" cat-name))
+          (dolist (file (directory-files cat-dir t "\\.org$"))
+            (let ((fname (file-name-nondirectory file)))
+              (unless (member fname '("index.org" "sitemap.org"))
+                (let ((title
+                       (with-temp-buffer
+                         (insert-file-contents file)
+                         (goto-char (point-min))
+                         (if (re-search-forward "^#\\+TITLE: \\(.*\\)$" nil t)
+                             (match-string 1)
+                           fname))))
+                  (insert (format "- [[file:%s/%s][%s]]\n"
+                                  cat fname title))))))
+          (insert "\n")))
+      (insert "** How This Works\n\n")
+      (insert "These notes are:\n- Written in Emacs Org mode\n- Version controlled with Git\n- Automatically published to this website via GitHub Actions\n- Hosted on GitHub Pages\n\n")
+      (insert "** Browse All Notes\n\n")
+      (insert "Visit the [[file:sitemap.org][complete sitemap]] to see all notes organized by date.\n\n")
+      (insert "*Note: The sitemap is automatically generated when the site is published.*\n"))
+    (message "Generated dynamic index.org with all categories")))
 
 (defun batch-publish ()
   "Publish the notes in batch mode."
-  (simple-generate-index)
+  (my/generate-index)
   (org-publish-project "my-notes-org-root" t)
   (org-publish-project "my-notes-org-subdirs" t)
   (org-publish-project "my-notes-static" t))

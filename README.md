@@ -33,7 +33,9 @@ my-notes/
 ├── public/                  # Generated HTML (auto-created)
 ├── .github/workflows/       # GitHub Actions
 │   └── publish.yml         # Publishing workflow
-├── publish.el              # Emacs publishing script
+├── scripts/                # Publishing scripts
+│   ├── publish.el         # Emacs publishing script
+│   └── generate-index.el  # Index generation script
 └── README.md
 ```
 
@@ -133,7 +135,7 @@ Edit `assets/css/style.css` to customize the appearance. The CSS uses CSS custom
 
 ### Publishing Settings
 
-Modify `publish.el` to change publishing behavior:
+Modify `scripts/publish.el` to change publishing behavior:
 
 - Change output directory
 - Modify HTML export options
@@ -160,7 +162,7 @@ brew install emacs
 sudo apt install emacs
 
 # Publish locally
-emacs --batch -l publish.el
+emacs --batch -l scripts/publish.el
 
 # Serve locally (optional)
 cd public

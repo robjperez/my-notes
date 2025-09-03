@@ -1,0 +1,102 @@
+#+TITLE: WebGL Fundamentals
+#+AUTHOR: Roberto
+#+DATE: 2025-09-03
+
+* What is WebGL?
+
+WebGL (Web Graphics Library) is a JavaScript API that renders interactive 2D and 3D graphics within any compatible web browser without the use of plug-ins. It's based on OpenGL ES 2.0 and provides a low-level interface to the GPU.
+
+* Key Concepts
+
+** Canvas Element
+WebGL uses the HTML5 canvas element as its rendering surface. You need to get a WebGL context from the canvas.
+
+** Shaders
+WebGL uses two types of shaders:
+- Vertex shaders: Process vertex data
+- Fragment shaders: Process pixel data
+
+** Buffers
+WebGL uses buffers to store vertex data, indices, and other information on the GPU.
+
+* Basic WebGL Setup
+
+#+BEGIN_SRC javascript
+// Get the canvas element
+const canvas = document.getElementById('myCanvas');
+
+// Get WebGL context
+const gl = canvas.getContext('webgl');
+
+if (!gl) {
+    console.error('WebGL not supported');
+}
+
+// Set viewport
+gl.viewport(0, 0, canvas.width, canvas.height);
+
+// Clear the canvas
+gl.clearColor(0.0, 0.0, 0.0, 1.0);
+gl.clear(gl.COLOR_BUFFER_BIT);
+#+END_SRC
+
+* Creating a Simple Triangle
+
+** Step 1: Define Vertex Data
+#+BEGIN_SRC javascript
+const vertices = new Float32Array([
+    -0.5, -0.5,  // Bottom left
+     0.5, -0.5,  // Bottom right
+     0.0,  0.5   // Top center
+]);
+#+END_SRC
+
+** Step 2: Create and Bind Buffer
+#+BEGIN_SRC javascript
+const vertexBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+#+END_SRC
+
+** Step 3: Create Shaders
+#+BEGIN_SRC glsl
+// Vertex Shader
+const vertexShaderSource = `
+attribute vec2 aVertexPosition;
+void main() {
+    gl_Position = vec4(aVertexPosition, 0.0, 1.0);
+}
+`;
+
+// Fragment Shader
+const fragmentShaderSource = `
+precision mediump float;
+void main() {
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); // Red color
+}
+`;
+#+END_SRC
+
+* WebGL vs Canvas 2D
+
+| Feature | WebGL | Canvas 2D |
+|---------|-------|-----------|
+| Performance | High (GPU) | Lower (CPU) |
+| 3D Support | Yes | No |
+| Complexity | High | Low |
+| Browser Support | Modern browsers | All browsers |
+
+* Common Use Cases
+
+- 3D visualizations
+- Data visualization
+- Games
+- Interactive graphics
+- Image processing
+- Scientific simulations
+
+* Resources
+
+- [[https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API]]
+- [[https://webglfundamentals.org/]]
+- [[https://threejs.org/]] - Popular WebGL library
