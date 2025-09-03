@@ -1,6 +1,7 @@
 #+TITLE: Introducción a GLSL
 #+AUTHOR: robjperez
 #+DATE: 2025-09-03
+#+TAGS: glsl, graphics, shaders, opengl
 
 * ¿Qué es GLSL?
 GLSL (OpenGL Shading Language) es un lenguaje de programación diseñado para escribir shaders, pequeños programas que se ejecutan en la GPU para controlar el procesamiento gráfico en aplicaciones OpenGL.

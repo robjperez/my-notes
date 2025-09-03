@@ -1,6 +1,7 @@
 #+TITLE: Vertex Shaders in GLSL
 #+AUTHOR: Roberto
 #+DATE: 2025-09-03
+#+TAGS: glsl, vertex-shaders, graphics, opengl, shaders
 
 * Introduction to Vertex Shaders
 

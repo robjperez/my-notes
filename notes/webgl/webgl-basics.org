@@ -1,6 +1,7 @@
 #+TITLE: WebGL Fundamentals
 #+AUTHOR: Roberto
 #+DATE: 2025-09-03
+#+TAGS: webgl, javascript, graphics, web-development, 3d
 
 * What is WebGL?
 

@@ -95,15 +95,24 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
           (dolist (file (directory-files cat-dir t "\\.org$"))
             (let ((fname (file-name-nondirectory file)))
               (unless (member fname '("index.org" "sitemap.org"))
-                (let ((title
-                       (with-temp-buffer
-                         (insert-file-contents file)
-                         (goto-char (point-min))
-                         (if (re-search-forward "^#\\+TITLE: \\(.*\\)$" nil t)
-                             (match-string 1)
-                           fname))))
-                  (insert (format "- [[file:%s/%s][%s]]\n"
-                                  cat fname title))))))
+                (let* ((title
+                        (with-temp-buffer
+                          (insert-file-contents file)
+                          (goto-char (point-min))
+                          (if (re-search-forward "^#\\+TITLE: \\(.*\\)$" nil t)
+                              (match-string 1)
+                            fname)))
+                       (tags
+                        (with-temp-buffer
+                          (insert-file-contents file)
+                          (goto-char (point-min))
+                          (if (re-search-forward "^#\\+TAGS: \\(.*\\)$" nil t)
+                              (match-string 1)
+                            ""))))
+                  (insert (format "- [[file:%s/%s][%s]]" cat fname title))
+                  (when (not (string-empty-p tags))
+                    (insert (format " :%s:" (replace-regexp-in-string ", " ":" tags))))
+                  (insert "\n")))))
           (insert "\n")))
       (insert "** How This Works\n\n")
       (insert "These notes are:\n- Written in Emacs Org mode\n- Version controlled with Git\n- Automatically published to this website via GitHub Actions\n- Hosted on GitHub Pages\n\n")
