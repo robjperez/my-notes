@@ -117,7 +117,7 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
                                         (downcase (replace-regexp-in-string "[^a-zA-Z0-9]" "-" tag))
                                         tag)))))
                   (insert "\n")))))
-          (insert "\n")))
+          (insert "\n"))))
     (message "Generated dynamic index.org with all categories")))
 
 (defun batch-publish ()
