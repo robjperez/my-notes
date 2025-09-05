@@ -1,10 +1,11 @@
-#+TITLE: My Digital Notes
-#+AUTHOR: Your Name
-#+EMAIL: your.email@example.com
+#+TITLE: My Notes
+#+AUTHOR: Roberto
 #+OPTIONS: toc:nil num:nil
 
 * Welcome to My Notes
 
-This is my personal knowledge base where I collect thoughts, learnings, and insights on various topics. The notes are organized by category and automatically updated as I add new content.
+Here I will write some short notes that of different topics that I come across.
+
+The notes are written in org-mode in [[https://github.com/robjperez/my-notes/tree/main/notes][this github repo]] and auto exported to html with a github actions workflow.
 
 #+INCLUDE: "index.org"
