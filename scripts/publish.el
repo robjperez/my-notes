@@ -29,6 +29,9 @@
       org-html-link-home "index.html"
       org-html-link-up "index.html")
 
+;; Auto-confirm code block execution during batch export
+(setq org-confirm-babel-evaluate nil)
+
 (setq org-publish-project-alist
       (list
        (list "my-notes-org-root"
