@@ -1,0 +1,33 @@
+#+TITLE: Autogenerate reports in org mode
+#+AUTHOR: Roberto
+#+TAGS: emacs, org-mode, data
+#+OPTIONS: toc:nil
+
+One of the things that I like to do is to write somewhere the games I play/complete during the year. In the future I like to revisit it and remember what I was doing and which games I could complete.
+
+Now that I'm writing these notes in org-mode, the first and easy thing was to create a note with it.
+
+But what I want to write it here is that org-mode is so powerful that you can even write "analytics" easily, and with the bonus of enjoying the fun of writing elisp.
+
+For that, put ~#+name: your-table-name~ above the table itself, and then add a code block like:
+
+~#+begin_src emacs-lisp :var data=your-table-name :results table :exports results~
+
+Key parts:
+- ~data=your-table-name~ it will create a variable with your table
+- ~:exports results~ when exporting to html, instead of exporting the code, it will execute the code and export the results instead.
+
+This is the code I wrote in [[file:../other/games.org][this note]] just to count how many games I've been playing on each system
+
+#+begin_src emacs-lisp
+    (let ((counts (make-hash-table :test 'equal)))
+    (dolist (row data)
+      (let ((console (nth 1 row)))
+        (puthash console (1+ (gethash console counts 0)) counts)))
+
+    (let (result)
+      (maphash (lambda (console count)
+                 (push (list console count) result)) counts)
+      (cons '("Platform" "Games Played")
+            (sort result (lambda (a b) (string> (car a) (car b))))))))
+#+end_src
