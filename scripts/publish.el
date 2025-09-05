@@ -4,18 +4,22 @@
 (require 'ox-publish)
 (require 'org)
 
-;; Custom function to handle CSS paths based on file location
+;; Custom function to handle CSS and JS paths based on file location
 (defun my-org-html-head (info)
-  "Generate HTML head with correct CSS path based on file location."
+  "Generate HTML head with correct CSS and JS paths based on file location."
   (let* ((file-path (plist-get info :input-file))
          (relative-path (file-relative-name file-path "./notes"))
          (depth (length (split-string relative-path "/" t)))
          (css-path (if (> depth 1)
                        (concat (make-string (1- depth) ?.) "/assets/css/style.css")
-                     "assets/css/style.css")))
+                     "assets/css/style.css"))
+         (js-path (if (> depth 1)
+                      (concat (make-string (1- depth) ?.) "/assets/js/theme-toggle.js")
+                    "assets/js/theme-toggle.js")))
     (format "<link rel=\"stylesheet\" type=\"text/css\" href=\"%s\" />
+                     <script src=\"%s\" defer></script>
                      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-                     <meta charset=\"utf-8\">" css-path)))
+                     <meta charset=\"utf-8\">" css-path js-path)))
 
 
 ;; Configure HTML export settings
@@ -23,11 +27,12 @@
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
       org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"assets/css/style.css\" />
+                     <script src=\"assets/js/theme-toggle.js\" defer></script>
                      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
                      <meta charset=\"utf-8\">"
       org-html-htmlize-output-type 'css
-      org-html-link-home "index.html"
-      org-html-link-up "index.html")
+      org-html-link-home ""
+      org-html-link-up "")
 
 ;; Auto-confirm code block execution during batch export
 (setq org-confirm-babel-evaluate nil)
@@ -45,7 +50,7 @@
              :with-toc t
              :section-numbers nil
              :time-stamp-file nil
-             :html-preamble "<nav><a href=\"index.html\">Home</a> | <a href=\"index.html\">All Notes</a></nav>"
+             :html-preamble "<nav><a href=\"index.html\">🏠 Home</a></nav>"
              :html-postamble "<footer><p>Last updated: %C</p></footer>")
        (list "my-notes-org-subdirs"
              :recursive t
@@ -60,9 +65,10 @@
              :section-numbers nil
              :time-stamp-file nil
              :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../assets/css/style.css\" />
+                         <script src=\"../assets/js/theme-toggle.js\" defer></script>
                          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
                          <meta charset=\"utf-8\">"
-             :html-preamble "<nav><a href=\"../index.html\">Home</a> | <a href=\"../index.html\">All Notes</a></nav>"
+             :html-preamble "<nav><a href=\"../index.html\">🏠 Home</a></nav>"
              :html-postamble "<footer><p>Last updated: %C</p></footer>")
        (list "my-notes-static"
              :base-directory "./assets"
@@ -93,8 +99,17 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
 ")
       (dolist (cat categories)
         (let ((cat-name (capitalize cat))
-              (cat-dir (concat base-dir cat "/")))
-          (insert (format "* %s Notes\n\n" cat-name))
+              (cat-dir (concat base-dir cat "/"))
+              (cat-icon (cond
+                         ((string= cat "emacs") "📝")
+                         ((string= cat "other") "📚")
+                         ((string= cat "programming") "💻")
+                         ((string= cat "web") "🌐")
+                         ((string= cat "games") "🎮")
+                         ((string= cat "tutorials") "📖")
+                         ((string= cat "projects") "🚀")
+                         (t "📄"))))
+          (insert (format "* %s %s Notes\n\n" cat-icon cat-name))
           (dolist (file (directory-files cat-dir t "\\.org$"))
             (let ((fname (file-name-nondirectory file)))
               (unless (member fname '("index.org" "sitemap.org"))
