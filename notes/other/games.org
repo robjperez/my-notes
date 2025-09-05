@@ -4,6 +4,7 @@
 
 Here I will put the games that I've been playing during this year
 
+#+name: games-played
 | Game                      | Platform | Completed             |
 |---------------------------+----------+-----------------------|
 | Xenoblade Chronicles X    | Switch   | No :(, too long!      |
@@ -11,3 +12,24 @@ Here I will put the games that I've been playing during this year
 | Mario Kart World          | Switch 2 | Mirror Mode unlocked! |
 | Donkey Kong Bananza       | Switch 2 | First ending          |
 | Kunitsu Gami              | Switch 2 | Yes                   |
+| Ys Nordics                | Switch   | On My way             |
+| Story Of Seasons: Bazaar  | Switch 2 | Just started          |
+
+#+begin_src emacs-lisp :var data=games-played :results table
+  (let ((counts (make-hash-table :test 'equal)))
+    (dolist (row data)
+      (let ((console (nth 1 row)))
+        (puthash console (1+ (gethash console counts 0)) counts)))
+
+    (let (result)
+      (maphash (lambda (console count)
+                 (push (list console count) result)) counts)
+      (cons '("Platform" "Games Played")
+            (sort result (lambda (a b) (string> (car a) (car b))))))))
+#+end_src
+
+#+RESULTS:
+| Platform | Games Played |
+| Switch 2 |            4 |
+| Switch   |            2 |
+| Steam    |            1 |
