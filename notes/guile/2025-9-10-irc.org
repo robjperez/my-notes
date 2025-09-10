@@ -1,0 +1,62 @@
+#+TITLE: Setup environment for guile irc dev
+#+AUTHOR: Roberto
+#+TAGS: guile, irc
+#+OPTIONS: toc:nil
+
+Trying to experiment with some IRC bots while having fun with guile.
+Recently I'm using MacOS so these are the steps to setup things for developing in guile
+
+1. First, install the packages using ~brew~ 
+
+   ~brew install guile guile-gnutls automake~
+
+2. Let's install fibers and guile-irc to a local folder instead of system wide
+
+   ~mkdir /Users/roberto/src/guile/libs/src~
+
+   I'll install libs in that folder
+
+3. Setup env var in ~./.zshrc~
+
+   #+begin_src bash
+   # Guile stuff
+   export GUILE_LOAD_PATH="/opt/homebrew/share/guile/site/3.0:/Users/roberto/src/guile/libs/lib/guile/3.0"
+   export GUILE_LOAD_COMPILED_PATH="/opt/homebrew/lib/guile/3.0/site-ccache:/Users/roberto/src/guile/libs/lib/guile/3.0/site-ccache"
+   export GUILE_SYSTEM_EXTENSIONS_PATH="/opt/homebrew/lib/guile/3.0/extensions/Users/roberto/src/guile/libs/lib/guile/3.0/extensions"
+   export GUILE_TLS_CERTIFICATE_DIRECTORY="/opt/homebrew/etc/gnutls/"
+   #+end_src
+
+4. Install fibers
+
+   #+begin_src bash
+     cd /Users/roberto/src/guile/libs/src
+     git clone https://codeberg.org/fibers/fibers.git
+     cd fibers
+     ./autogen.sh -vif
+     ./configure --prefix=/Users/roberto/src/guile/libs
+     make && make install
+   #+end_src
+
+5. Install guile-irc
+
+   Make sure you sourced the ./.zshrc env vars
+   #+begin_src bash
+     cd /Users/roberto/src/guile/libs/src
+     git clone git@github.com:rekado/guile-irc.git
+     cd guile-irc
+     ./autogen.sh -vif
+     ./configure --prefix=/Users/roberto/src/guile/libs
+     make && make install
+   #+end_src
+
+6. Test and profit
+
+   Run ~guile~ and
+
+   #+begin_src guile
+     (use-modules (fibers) (irc irc) (irc handlers) ((irc message) #:renamer (symbol-prefix-proc 'msg:)))
+   #+end_src
+
+   If no errors, we are good to go and start creating code.
+
+Remember that connections to IRC networks like Libera will expose your public IP :)
