@@ -30,20 +30,26 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.7;
     color: var(--text-color);
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: var(--bg-color);
     transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 400;
+    letter-spacing: -0.01em;
 }
 
 h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     color: var(--heading-color);
     margin-top: 1.5em;
     margin-bottom: 0.5em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
 }
 
 h1 {
@@ -84,7 +90,233 @@ pre {
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
-    font-size: 0.9em;
+    font-size: 0.8em;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    line-height: 1.4;
+}
+
+/* Prism.js syntax highlighting integration */
+pre[class*="language-"] {
+    background: var(--code-bg) !important;
+    color: var(--code-text) !important;
+    border: 1px solid var(--border-color);
+    box-shadow: none !important;
+    text-shadow: none !important;
+    outline: none !important;
+    font-size: 0.8em !important;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+    line-height: 1.4 !important;
+}
+
+code[class*="language-"] {
+    background: transparent !important;
+    color: inherit !important;
+    text-shadow: none !important;
+    outline: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+}
+
+/* Inline code styling */
+code:not([class*="language-"]) {
+    background: var(--border-color);
+    color: var(--text-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: 0.85em;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode inline code styling */
+@media (prefers-color-scheme: dark) {
+    code:not([class*="language-"]) {
+        background: #2a2a2a;
+        color: #e0e0e0;
+        border-color: #4a5568;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* Fix symbol rendering issues */
+.token.operator,
+.token.punctuation {
+    color: var(--code-text) !important;
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+/* Ensure all tokens have transparent background */
+.token {
+    background: transparent !important;
+    text-shadow: none !important;
+    outline: none !important;
+}
+
+/* Override Prism themes for better integration */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #6a9955;
+    font-style: italic;
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.token.punctuation {
+    color: var(--code-text);
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #b5cea8;
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #ce9178;
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: var(--code-text);
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #569cd6;
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.token.function,
+.token.class-name {
+    color: #dcdcaa;
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #d16969;
+    text-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+        color: #6a9955;
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+    
+    .token.punctuation {
+        color: var(--code-text);
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+    
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+        color: #b5cea8;
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+    
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+        color: #ce9178;
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+    
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+        color: var(--code-text);
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+    
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+        color: #569cd6;
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+    
+    .token.function,
+    .token.class-name {
+        color: #dcdcaa;
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
+    
+    .token.regex,
+    .token.important,
+    .token.variable {
+        color: #d16969;
+        text-shadow: none !important;
+        outline: none !important;
+        background: transparent !important;
+    }
 }
 
 blockquote {
@@ -210,6 +442,10 @@ footer {
     transition: all 0.2s ease;
     border: 1px solid transparent;
     opacity: 0.8;
+    /* Fallback styling for tags without specific classes */
+    background: #f0f0f0;
+    color: #666;
+    border-color: #ccc;
 }
 
 .tag:hover {
@@ -218,62 +454,32 @@ footer {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Color schemes for different tag types - subtle colors */
-.tag-emacs { background: #f0f4f0; color: #4a6741; border-color: #6b8e6b; }
-.tag-ruby { background: #f5f0f0; color: #6b4a4a; border-color: #8b6b6b; }
-.tag-rails { background: #f5f2f0; color: #6b5a4a; border-color: #8b7b6b; }
-.tag-web-development { background: #f0f2f5; color: #4a5a6b; border-color: #6b7b8b; }
-.tag-framework { background: #f2f0f5; color: #5a4a6b; border-color: #7b6b8b; }
-.tag-programming { background: #f0f5f2; color: #4a6b5a; border-color: #6b8b7b; }
-.tag-basics { background: #f5f4f0; color: #6b5a4a; border-color: #8b7b6b; }
-.tag-syntax { background: #f5f0f2; color: #6b4a5a; border-color: #8b6b7b; }
-.tag-configuration { background: #f0f0f5; color: #4a4a6b; border-color: #6b6b8b; }
-.tag-customization { background: #f2f5f0; color: #5a6b4a; border-color: #7b8b6b; }
-.tag-setup { background: #f5f2f0; color: #6b5a4a; border-color: #8b7b6b; }
-.tag-org-mode { background: #f0f5f5; color: #4a6b6b; border-color: #6b8b8b; }
-.tag-productivity { background: #f5f5f0; color: #6b6b4a; border-color: #8b8b6b; }
-.tag-notes { background: #f5f5f5; color: #6b6b6b; border-color: #8b8b8b; }
-.tag-editor { background: #f0f4f0; color: #4a6741; border-color: #6b8e6b; }
-.tag-navigation { background: #f0f2f5; color: #4a5a6b; border-color: #6b7b8b; }
-.tag-glsl { background: #f0f0f5; color: #4a4a6b; border-color: #6b6b8b; }
-.tag-graphics { background: #f5f2f0; color: #6b5a4a; border-color: #8b7b6b; }
-.tag-shaders { background: #f2f0f5; color: #5a4a6b; border-color: #7b6b8b; }
-.tag-opengl { background: #f0f5f2; color: #4a6b5a; border-color: #6b8b7b; }
-.tag-vertex-shaders { background: #f5f0f2; color: #6b4a5a; border-color: #8b6b7b; }
-.tag-webgl { background: #f0f2f5; color: #4a5a6b; border-color: #6b7b8b; }
-.tag-javascript { background: #f5f4f0; color: #6b5a4a; border-color: #8b7b6b; }
-.tag-3d { background: #f2f5f0; color: #5a6b4a; border-color: #7b8b6b; }
-.tag-gaming { background: #f0f5f2; color: #4a6b5a; border-color: #6b8b7b; }
-.tag-diary { background: #f5f0f5; color: #6b4a6b; border-color: #8b6b8b; }
+/* Date styling */
+.date {
+    display: inline-block;
+    font-size: 0.7em;
+    font-weight: 400;
+    color: #666;
+    margin-right: 8px;
+    opacity: 0.8;
+}
 
-/* Dark mode tag colors - subtle */
+/* Dark mode date styling */
 @media (prefers-color-scheme: dark) {
-    .tag-emacs { background: #2a3a2a; color: #8ba68b; border-color: #5a7a5a; }
-    .tag-ruby { background: #3a2a2a; color: #a68b8b; border-color: #7a5a5a; }
-    .tag-rails { background: #3a322a; color: #a68b7a; border-color: #7a6a5a; }
-    .tag-web-development { background: #2a323a; color: #8b9aa6; border-color: #5a6a7a; }
-    .tag-framework { background: #322a3a; color: #9a8ba6; border-color: #6a5a7a; }
-    .tag-programming { background: #2a3a32; color: #8ba69a; border-color: #5a7a6a; }
-    .tag-basics { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
-    .tag-syntax { background: #3a2a32; color: #a68b9a; border-color: #7a5a6a; }
-    .tag-configuration { background: #2a2a3a; color: #8b8ba6; border-color: #5a5a7a; }
-    .tag-customization { background: #323a2a; color: #9aa68b; border-color: #6a7a5a; }
-    .tag-setup { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
-    .tag-org-mode { background: #2a3a3a; color: #8ba6a6; border-color: #5a7a7a; }
-    .tag-productivity { background: #3a3a2a; color: #a6a68b; border-color: #7a7a5a; }
-    .tag-notes { background: #3a3a3a; color: #a6a6a6; border-color: #7a7a7a; }
-    .tag-editor { background: #2a3a2a; color: #8ba68b; border-color: #5a7a5a; }
-    .tag-navigation { background: #2a323a; color: #8b9aa6; border-color: #5a6a7a; }
-    .tag-glsl { background: #2a2a3a; color: #8b8ba6; border-color: #5a5a7a; }
-    .tag-graphics { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
-    .tag-shaders { background: #322a3a; color: #9a8ba6; border-color: #6a5a7a; }
-    .tag-opengl { background: #2a3a32; color: #8ba69a; border-color: #5a7a6a; }
-    .tag-vertex-shaders { background: #3a2a32; color: #a68b9a; border-color: #7a5a6a; }
-    .tag-webgl { background: #2a323a; color: #8b9aa6; border-color: #5a6a7a; }
-    .tag-javascript { background: #3a322a; color: #a69a8b; border-color: #7a6a5a; }
-    .tag-3d { background: #323a2a; color: #9aa68b; border-color: #6a7a5a; }
-.tag-gaming { background: #2a3a32; color: #8ba69a; border-color: #5a7a6a; }
-.tag-diary { background: #3a2a3a; color: #a68ba6; border-color: #7a5a7a; }
+    .date {
+        color: #999;
+    }
+}
+
+/* Dynamic tag styling - colors are generated by JavaScript based on tag names */
+
+/* Dark mode fallback for tags without dynamic styling */
+@media (prefers-color-scheme: dark) {
+    .tag {
+        background: #3a3a3a;
+        color: #a6a6a6;
+        border-color: #7a7a7a;
+    }
 }
 
 /* Dark/Light Mode Toggle Button */

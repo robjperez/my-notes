@@ -2,6 +2,7 @@
 #+AUTHOR: Roberto
 #+TAGS: emacs, org-mode, data
 #+OPTIONS: toc:nil
+#+DATE: <2025-09-05>
 
 One of the things that I like to do is to write somewhere the games I play/complete during the year. In the future I like to revisit it and remember what I was doing and which games I could complete.
 

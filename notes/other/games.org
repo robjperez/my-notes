@@ -2,6 +2,7 @@
 #+AUTHOR: Roberto
 #+TAGS: gaming, diary
 #+OPTIONS: toc:nil
+#+DATE: <2025-09-05>
 
 Here I will put the games that I've been playing during this year
 

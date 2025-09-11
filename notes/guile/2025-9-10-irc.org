@@ -2,6 +2,7 @@
 #+AUTHOR: Roberto
 #+TAGS: guile, irc
 #+OPTIONS: toc:nil
+#+DATE: <2025-09-10>
 
 Trying to experiment with some IRC bots while having fun with guile.
 Recently I'm using MacOS so these are the steps to setup things for developing in guile

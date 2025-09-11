@@ -26,11 +26,20 @@
 (setq org-html-validation-link nil
       org-html-head-include-scripts nil
       org-html-head-include-default-style nil
-      org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"assets/css/style.css\" />
+      org-html-head "<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+                     <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+                     <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">
+                     <link rel=\"stylesheet\" type=\"text/css\" href=\"assets/css/style.css\" />
+                     <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css\" />
+                     <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css\" media=\"(prefers-color-scheme: dark)\" />
+                     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js\"></script>
+                     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js\"></script>
+                     <script src=\"assets/js/prism-org-mode.js\" defer></script>
                      <script src=\"assets/js/theme-toggle.js\" defer></script>
+                     <script src=\"assets/js/tag-styling.js\" defer></script>
                      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
                      <meta charset=\"utf-8\">"
-      org-html-htmlize-output-type 'css
+      org-html-htmlize-output-type nil
       org-html-link-home ""
       org-html-link-up "")
 
@@ -64,8 +73,17 @@
              :with-toc t
              :section-numbers nil
              :time-stamp-file nil
-             :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../assets/css/style.css\" />
+             :html-head "<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+                         <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+                         <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">
+                         <link rel=\"stylesheet\" type=\"text/css\" href=\"../assets/css/style.css\" />
+                         <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css\" />
+                         <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css\" media=\"(prefers-color-scheme: dark)\" />
+                         <script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js\"></script>
+                         <script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js\"></script>
+                         <script src=\"../assets/js/prism-org-mode.js\" defer></script>
                          <script src=\"../assets/js/theme-toggle.js\" defer></script>
+                         <script src=\"../assets/js/tag-styling.js\" defer></script>
                          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
                          <meta charset=\"utf-8\">"
              :html-preamble "<nav><a href=\"../index.html\">🏠 Home</a></nav>"
@@ -126,8 +144,18 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
                           (goto-char (point-min))
                           (if (re-search-forward "^#\\+TAGS: \\(.*\\)$" nil t)
                               (match-string 1)
+                            "")))
+                       (date
+                        (with-temp-buffer
+                          (insert-file-contents file)
+                          (goto-char (point-min))
+                          (if (re-search-forward "^#\\+DATE: <\\([^>]+\\)>" nil t)
+                              (match-string 1)
                             ""))))
-                  (insert (format "- [[file:%s/%s][%s]]" cat fname title))
+                  (insert "- ")
+                  (when (not (string-empty-p date))
+                    (insert (format "@@html:<span class=\"date\">%s</span>@@ " date)))
+                  (insert (format "[[file:%s/%s][%s]]" cat fname title))
                   (when (not (string-empty-p tags))
                     (let ((tag-list (split-string tags ", ")))
                       (dolist (tag tag-list)
@@ -138,12 +166,41 @@ This is my personal knowledge base where I collect thoughts, learnings, and insi
           (insert "\n"))))
     (message "Generated dynamic index.org with all categories")))
 
+(defun my/copy-assets ()
+  "Copy CSS and JS assets to public directory."
+  (let ((assets-dir "assets/")
+        (public-dir "public/assets/"))
+    ;; Ensure public assets directory exists
+    (unless (file-directory-p public-dir)
+      (make-directory public-dir t))
+    
+    ;; Copy CSS files
+    (let ((css-files (directory-files (concat assets-dir "css/") t "\\.css$")))
+      (dolist (css-file css-files)
+        (let ((target-file (concat public-dir "css/" (file-name-nondirectory css-file))))
+          (unless (file-directory-p (concat public-dir "css/"))
+            (make-directory (concat public-dir "css/") t))
+          (copy-file css-file target-file t)
+          (message "Copied %s to %s" css-file target-file))))
+    
+    ;; Copy JS files
+    (let ((js-files (directory-files (concat assets-dir "js/") t "\\.js$")))
+      (dolist (js-file js-files)
+        (let ((target-file (concat public-dir "js/" (file-name-nondirectory js-file))))
+          (unless (file-directory-p (concat public-dir "js/"))
+            (make-directory (concat public-dir "js/") t))
+          (copy-file js-file target-file t)
+          (message "Copied %s to %s" js-file target-file))))
+    
+    (message "Assets copied successfully")))
+
 (defun batch-publish ()
   "Publish the notes in batch mode."
   (my/generate-index)
   (org-publish-project "my-notes-org-root" t)
   (org-publish-project "my-notes-org-subdirs" t)
-  (org-publish-project "my-notes-static" t))
+  (org-publish-project "my-notes-static" t)
+  (my/copy-assets))
 
 (provide 'publish-simple)
 ;;; publish-simple.el ends here
